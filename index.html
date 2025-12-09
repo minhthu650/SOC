@@ -58,7 +58,6 @@
       z-index: -1;
     }
 
-    /* particles background */
     .particles {
       position: fixed;
       top: 0;
@@ -513,6 +512,25 @@
       transform: translateX(0);
     }
 
+    /* KHUNG CHUNG: map bên trái, log bên phải */
+    #flow-wrapper {
+      display: flex;
+      gap: 16px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
+
+    #flow-wrapper #mini-container,
+    #flow-wrapper #log-panel {
+      flex: 1;
+    }
+
+    @media (max-width: 1200px) {
+      #flow-wrapper {
+        flex-direction: column;
+      }
+    }
+
     #log-panel {
       background: linear-gradient(135deg,
         rgba(13, 27, 42, 0.9),
@@ -523,7 +541,6 @@
       display: flex;
       flex-direction: column;
       height: 400px;
-      flex: 0 0 400px;
       position: relative;
       overflow: hidden;
     }
@@ -770,7 +787,6 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       position: relative;
       overflow: hidden;
-      margin-bottom: 24px;
     }
 
     #mini-container::before {
@@ -966,10 +982,8 @@
   </style>
 </head>
 <body>
-  <!-- particles -->
   <div class="particles" id="particles"></div>
 
-  <!-- alert banner -->
   <div class="alert-banner" id="alertBanner">
     <i class="fas fa-exclamation-triangle"></i>
     <div>
@@ -992,7 +1006,6 @@
       </div>
     </div>
 
-    <!-- LEFT: architecture diagram -->
     <div id="diagram">
       <div class="section-header">
         <div class="section-title">Security Architecture Layers</div>
@@ -1016,7 +1029,6 @@
         </div>
       </div>
 
-      <!-- Threat actors -->
       <div class="layer-container">
         <div class="layer-label">
           <i class="fas fa-user-secret"></i>
@@ -1071,7 +1083,6 @@
         </div>
       </div>
 
-      <!-- Network & Perimeter -->
       <div class="layer-container">
         <div class="layer-label">
           <i class="fas fa-network-wired"></i>
@@ -1105,7 +1116,6 @@
         </div>
       </div>
 
-      <!-- Endpoints -->
       <div class="layer-container">
         <div class="layer-label">
           <i class="fas fa-desktop"></i>
@@ -1127,7 +1137,6 @@
         </div>
       </div>
 
-      <!-- Agent modules -->
       <div class="layer-container">
         <div class="layer-label">
           <i class="fas fa-shield-virus"></i>
@@ -1156,7 +1165,7 @@
               <div class="node-tag">Integrity</div>
             </div>
             <div class="node-sub">
-              Monitor thư mục nhạy cảm (như C:\\Users\\Public\\FIM-Test), ghi nhận added/modified/deleted với chi tiết hash.
+              Monitor thư mục nhạy cảm (như C:\Users\Public\FIM-Test), ghi nhận added/modified/deleted với chi tiết hash.
             </div>
           </div>
 
@@ -1188,7 +1197,6 @@
         </div>
       </div>
 
-      <!-- SIEM core -->
       <div class="layer-container">
         <div class="layer-label">
           <i class="fas fa-server"></i>
@@ -1236,7 +1244,6 @@
         </div>
       </div>
 
-      <!-- Threat intel & hunting -->
       <div class="layer-container">
         <div class="layer-label">
           <i class="fas fa-search"></i>
@@ -1272,7 +1279,6 @@
       </div>
     </div>
 
-    <!-- RIGHT: scenarios + mini map + log -->
     <div id="control">
       <div class="section-header">
         <div class="section-title">Attack Scenarios</div>
@@ -1324,126 +1330,118 @@
         </div>
       </div>
 
-      <!-- mini map ABOVE log -->
-      <div id="mini-container">
-        <div id="mini-title">
-          <i class="fas fa-route"></i>
-          Interactive Flow Map – Blue dot follows the security event path
-        </div>
-        <svg id="mini-map" viewBox="0 0 700 380">
-          <defs>
-            <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3.5" orient="auto">
-              <path d="M0,0 L7,3.5 L0,7 Z" fill="#00e5ff"></path>
-            </marker>
-          </defs>
-
-          <!-- boxes (vẽ trước) -->
-          <rect class="mini-box" x="40" y="20" width="120" height="40"/>
-          <text class="mini-label" x="100" y="35">External</text>
-          <text class="mini-sub" x="100" y="50">Attacker / Kali</text>
-
-          <rect class="mini-box" x="40" y="120" width="140" height="40"/>
-          <text class="mini-label" x="110" y="135">Internal User</text>
-          <text class="mini-sub" x="110" y="150">User on Victim</text>
-
-          <rect class="mini-box" x="220" y="20" width="120" height="40"/>
-          <text class="mini-label" x="280" y="35">Router / NAT</text>
-          <text class="mini-sub" x="280" y="50">VirtualBox / Router</text>
-
-          <rect class="mini-box" x="400" y="20" width="120" height="40"/>
-          <text class="mini-label" x="460" y="35">Firewall / ACL</text>
-          <text class="mini-sub" x="460" y="50">Filtering / Logs</text>
-
-          <rect class="mini-box" x="260" y="120" width="160" height="40"/>
-          <text class="mini-label" x="340" y="135">Windows Victim</text>
-          <text class="mini-sub" x="340" y="150">Wazuh Agent</text>
-
-          <rect class="mini-box" x="40" y="220" width="190" height="40"/>
-          <text class="mini-label" x="135" y="235">SCA – Hardening</text>
-          <text class="mini-sub" x="135" y="250">CIS Benchmark</text>
-
-          <rect class="mini-box" x="260" y="220" width="110" height="40"/>
-          <text class="mini-label" x="315" y="235">HIDS</text>
-          <text class="mini-sub" x="315" y="250">Security Logs</text>
-
-          <rect class="mini-box" x="380" y="220" width="110" height="40"/>
-          <text class="mini-label" x="435" y="235">FIM</text>
-          <text class="mini-sub" x="435" y="250">File Changes</text>
-
-          <rect class="mini-box" x="500" y="220" width="140" height="40"/>
-          <text class="mini-label" x="570" y="235">Malware / IOC</text>
-          <text class="mini-sub" x="570" y="250">Hash / IP / Domain</text>
-
-          <rect class="mini-box" x="260" y="290" width="120" height="40"/>
-          <text class="mini-label" x="320" y="305">Wazuh Manager</text>
-          <text class="mini-sub" x="320" y="320">Rules & Alerts</text>
-
-          <rect class="mini-box" x="400" y="290" width="120" height="40"/>
-          <text class="mini-label" x="460" y="305">Wazuh Indexer</text>
-          <text class="mini-sub" x="460" y="320">Storage / Search</text>
-
-          <rect class="mini-box" x="560" y="170" width="120" height="40"/>
-          <text class="mini-label" x="620" y="185">Dashboard</text>
-          <text class="mini-sub" x="620" y="200">Views / Alerts</text>
-
-          <rect class="mini-box" x="560" y="270" width="120" height="40"/>
-          <text class="mini-label" x="620" y="285">MITRE Mapping</text>
-          <text class="mini-sub" x="620" y="300">Tactics / Techniques</text>
-
-          <rect class="mini-box" x="560" y="320" width="120" height="40"/>
-          <text class="mini-label" x="620" y="335">Threat Hunting</text>
-          <text class="mini-sub" x="620" y="350">IOC / Timeline</text>
-
-          <!-- lines (vẽ sau để luôn nổi trên box, không bị che) -->
-          <!-- actors -> network -->
-          <path id="p_ext_router"   class="link-line" d="M160,40 L220,40" marker-end="url(#arrow)"/>
-          <path id="p_int_victim"   class="link-line" d="M160,140 L260,140" marker-end="url(#arrow)"/>
-          <!-- network -> victim -->
-          <path id="p_router_fw"    class="link-line" d="M340,40 L400,40" marker-end="url(#arrow)"/>
-          <path id="p_fw_victim"    class="link-line" d="M460,60 L340,120" marker-end="url(#arrow)"/>
-
-          <!-- victim -> modules -->
-          <path id="p_vic_hids"     class="link-line" d="M340,160 L315,230" marker-end="url(#arrow)"/>
-          <path id="p_vic_fim"      class="link-line" d="M340,160 L435,230" marker-end="url(#arrow)"/>
-          <path id="p_vic_mal"      class="link-line" d="M340,160 L570,230" marker-end="url(#arrow)"/>
-          <path id="p_vic_sca"      class="link-line" d="M340,160 L135,230" marker-end="url(#arrow)"/>
-
-          <!-- modules -> manager -->
-          <path id="p_sca_mgr"      class="link-line" d="M135,250 L300,290" marker-end="url(#arrow)"/>
-          <path id="p_hids_mgr"     class="link-line" d="M315,250 L320,290" marker-end="url(#arrow)"/>
-          <path id="p_fim_mgr"      class="link-line" d="M435,250 L340,290" marker-end="url(#arrow)"/>
-          <path id="p_mal_mgr"      class="link-line" d="M570,250 L340,290" marker-end="url(#arrow)"/>
-
-          <!-- manager -> indexer -> dashboard -->
-          <path id="p_mgr_index"    class="link-line" d="M340,310 L400,310" marker-end="url(#arrow)"/>
-          <path id="p_index_dash"   class="link-line" d="M520,310 L620,190" marker-end="url(#arrow)"/>
-
-          <!-- dashboard -> MITRE -> hunting -->
-          <path id="p_dash_mitre"   class="link-line" d="M620,210 L620,270" marker-end="url(#arrow)"/>
-          <path id="p_mitre_hunt"   class="link-line" d="M620,300 L620,340" marker-end="url(#arrow)"/>
-
-          <!-- moving dot -->
-          <circle id="flowDot" cx="-20" cy="-20" r="7"></circle>
-        </svg>
-      </div>
-
-      <!-- log panel BELOW mini map -->
-      <div id="log-panel">
-        <div id="scenario-title">
-          <i class="fas fa-route"></i>
-          Select a scenario to visualize the security flow
-        </div>
-        <div id="log"></div>
-        <div class="progress-container">
-          <div class="progress-info">
-            <span class="progress-label">Scenario progress</span>
-            <span id="progress-percent" class="progress-percent">0%</span>
+      <!-- KHUNG CHUNG: map bên trái, log bên phải -->
+      <div id="flow-wrapper">
+        <div id="mini-container">
+          <div id="mini-title">
+            <i class="fas fa-route"></i>
+            Interactive Flow Map – Blue dot follows the security event path
           </div>
-          <div class="progress-bar">
-            <div id="progress-fill" class="progress-fill"></div>
+          <svg id="mini-map" viewBox="0 0 700 380">
+            <defs>
+              <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3.5" orient="auto">
+                <path d="M0,0 L7,3.5 L0,7 Z" fill="#00e5ff"></path>
+              </marker>
+            </defs>
+
+            <rect class="mini-box" x="40" y="20" width="120" height="40"/>
+            <text class="mini-label" x="100" y="35">External</text>
+            <text class="mini-sub" x="100" y="50">Attacker / Kali</text>
+
+            <rect class="mini-box" x="40" y="120" width="140" height="40"/>
+            <text class="mini-label" x="110" y="135">Internal User</text>
+            <text class="mini-sub" x="110" y="150">User on Victim</text>
+
+            <rect class="mini-box" x="220" y="20" width="120" height="40"/>
+            <text class="mini-label" x="280" y="35">Router / NAT</text>
+            <text class="mini-sub" x="280" y="50">VirtualBox / Router</text>
+
+            <rect class="mini-box" x="400" y="20" width="120" height="40"/>
+            <text class="mini-label" x="460" y="35">Firewall / ACL</text>
+            <text class="mini-sub" x="460" y="50">Filtering / Logs</text>
+
+            <rect class="mini-box" x="260" y="120" width="160" height="40"/>
+            <text class="mini-label" x="340" y="135">Windows Victim</text>
+            <text class="mini-sub" x="340" y="150">Wazuh Agent</text>
+
+            <rect class="mini-box" x="40" y="220" width="190" height="40"/>
+            <text class="mini-label" x="135" y="235">SCA – Hardening</text>
+            <text class="mini-sub" x="135" y="250">CIS Benchmark</text>
+
+            <rect class="mini-box" x="260" y="220" width="110" height="40"/>
+            <text class="mini-label" x="315" y="235">HIDS</text>
+            <text class="mini-sub" x="315" y="250">Security Logs</text>
+
+            <rect class="mini-box" x="380" y="220" width="110" height="40"/>
+            <text class="mini-label" x="435" y="235">FIM</text>
+            <text class="mini-sub" x="435" y="250">File Changes</text>
+
+            <rect class="mini-box" x="500" y="220" width="140" height="40"/>
+            <text class="mini-label" x="570" y="235">Malware / IOC</text>
+            <text class="mini-sub" x="570" y="250">Hash / IP / Domain</text>
+
+            <rect class="mini-box" x="260" y="290" width="120" height="40"/>
+            <text class="mini-label" x="320" y="305">Wazuh Manager</text>
+            <text class="mini-sub" x="320" y="320">Rules & Alerts</text>
+
+            <rect class="mini-box" x="400" y="290" width="120" height="40"/>
+            <text class="mini-label" x="460" y="305">Wazuh Indexer</text>
+            <text class="mini-sub" x="460" y="320">Storage / Search</text>
+
+            <rect class="mini-box" x="560" y="170" width="120" height="40"/>
+            <text class="mini-label" x="620" y="185">Dashboard</text>
+            <text class="mini-sub" x="620" y="200">Views / Alerts</text>
+
+            <rect class="mini-box" x="560" y="270" width="120" height="40"/>
+            <text class="mini-label" x="620" y="285">MITRE Mapping</text>
+            <text class="mini-sub" x="620" y="300">Tactics / Techniques</text>
+
+            <rect class="mini-box" x="560" y="320" width="120" height="40"/>
+            <text class="mini-label" x="620" y="335">Threat Hunting</text>
+            <text class="mini-sub" x="620" y="350">IOC / Timeline</text>
+
+            <path id="p_ext_router"   class="link-line" d="M160,40 L220,40" marker-end="url(#arrow)"/>
+            <path id="p_int_victim"   class="link-line" d="M160,140 L260,140" marker-end="url(#arrow)"/>
+            <path id="p_router_fw"    class="link-line" d="M340,40 L400,40" marker-end="url(#arrow)"/>
+            <path id="p_fw_victim"    class="link-line" d="M460,60 L340,120" marker-end="url(#arrow)"/>
+
+            <path id="p_vic_hids"     class="link-line" d="M340,160 L315,230" marker-end="url(#arrow)"/>
+            <path id="p_vic_fim"      class="link-line" d="M340,160 L435,230" marker-end="url(#arrow)"/>
+            <path id="p_vic_mal"      class="link-line" d="M340,160 L570,230" marker-end="url(#arrow)"/>
+            <path id="p_vic_sca"      class="link-line" d="M340,160 L135,230" marker-end="url(#arrow)"/>
+
+            <path id="p_sca_mgr"      class="link-line" d="M135,250 L300,290" marker-end="url(#arrow)"/>
+            <path id="p_hids_mgr"     class="link-line" d="M315,250 L320,290" marker-end="url(#arrow)"/>
+            <path id="p_fim_mgr"      class="link-line" d="M435,250 L340,290" marker-end="url(#arrow)"/>
+            <path id="p_mal_mgr"      class="link-line" d="M570,250 L340,290" marker-end="url(#arrow)"/>
+
+            <path id="p_mgr_index"    class="link-line" d="M340,310 L400,310" marker-end="url(#arrow)"/>
+            <path id="p_index_dash"   class="link-line" d="M520,310 L620,190" marker-end="url(#arrow)"/>
+
+            <path id="p_dash_mitre"   class="link-line" d="M620,210 L620,270" marker-end="url(#arrow)"/>
+            <path id="p_mitre_hunt"   class="link-line" d="M620,300 L620,340" marker-end="url(#arrow)"/>
+
+            <circle id="flowDot" cx="-20" cy="-20" r="7"></circle>
+          </svg>
+        </div>
+
+        <div id="log-panel">
+          <div id="scenario-title">
+            <i class="fas fa-route"></i>
+            Select a scenario to visualize the security flow
           </div>
-          <div class="timeline-indicator">
-            <div id="timeline-current" class="timeline-current"></div>
+          <div id="log"></div>
+          <div class="progress-container">
+            <div class="progress-info">
+              <span class="progress-label">Scenario progress</span>
+              <span id="progress-percent" class="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            <div class="timeline-indicator">
+              <div id="timeline-current" class="timeline-current"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1453,7 +1451,6 @@
   <div id="tooltip" class="tooltip"></div>
 
   <script>
-    // particles
     (function initParticles() {
       const container = document.getElementById("particles");
       const count = 25;
@@ -1483,52 +1480,50 @@
     const alertBanner = document.getElementById("alertBanner");
 
     const DEFAULT_TITLE = "Select a scenario to visualize the security flow";
-    const STEP_INTERVAL = 2000; // 2s mỗi bước
+    const STEP_INTERVAL = 2000;
 
-    // đường đi của chấm tròn trên mini-map
     const pathsMini = {
       hids: [
-        { x: 100, y: 40 },   // External
-        { x: 280, y: 40 },   // Router
-        { x: 460, y: 40 },   // Firewall
-        { x: 340, y: 140 },  // Victim
-        { x: 315, y: 230 },  // HIDS
-        { x: 320, y: 310 },  // Manager
-        { x: 460, y: 310 },  // Indexer
-        { x: 620, y: 190 },  // Dashboard
-        { x: 620, y: 285 },  // MITRE
-        { x: 620, y: 335 }   // Hunting
+        { x: 100, y: 40 },
+        { x: 280, y: 40 },
+        { x: 460, y: 40 },
+        { x: 340, y: 140 },
+        { x: 315, y: 230 },
+        { x: 320, y: 310 },
+        { x: 460, y: 310 },
+        { x: 620, y: 190 },
+        { x: 620, y: 285 },
+        { x: 620, y: 335 }
       ],
       fim: [
-        { x: 110, y: 140 },  // Internal
-        { x: 340, y: 140 },  // Victim
-        { x: 435, y: 230 },  // FIM
-        { x: 320, y: 310 },  // Manager
-        { x: 460, y: 310 },  // Indexer
-        { x: 620, y: 190 },  // Dashboard
-        { x: 620, y: 285 },  // MITRE
-        { x: 620, y: 335 }   // Hunting
+        { x: 110, y: 140 },
+        { x: 340, y: 140 },
+        { x: 435, y: 230 },
+        { x: 320, y: 310 },
+        { x: 460, y: 310 },
+        { x: 620, y: 190 },
+        { x: 620, y: 285 },
+        { x: 620, y: 335 }
       ],
       malware: [
-        { x: 110, y: 140 },  // Internal / local malware
-        { x: 340, y: 140 },  // Victim
-        { x: 570, y: 230 },  // Malware/IOC
-        { x: 320, y: 310 },  // Manager
-        { x: 460, y: 310 },  // Indexer
-        { x: 620, y: 190 },  // Dashboard
-        { x: 620, y: 285 },  // MITRE
-        { x: 620, y: 335 }   // Hunting
+        { x: 110, y: 140 },
+        { x: 340, y: 140 },
+        { x: 570, y: 230 },
+        { x: 320, y: 310 },
+        { x: 460, y: 310 },
+        { x: 620, y: 190 },
+        { x: 620, y: 285 },
+        { x: 620, y: 335 }
       ],
       sca: [
-        { x: 340, y: 140 },  // Victim
-        { x: 135, y: 230 },  // SCA
-        { x: 320, y: 310 },  // Manager
-        { x: 460, y: 310 },  // Indexer
-        { x: 620, y: 190 }   // Dashboard
+        { x: 340, y: 140 },
+        { x: 135, y: 230 },
+        { x: 320, y: 310 },
+        { x: 460, y: 310 },
+        { x: 620, y: 190 }
       ]
     };
 
-    // mapping: mỗi scenario -> list các đoạn mũi tên tương ứng
     const pathSequences = {
       hids: [
         "p_ext_router",
@@ -1700,7 +1695,6 @@
         dot.setAttribute("cy", y);
 
         if (progress >= 1) {
-          // đánh dấu đoạn vừa đi qua
           const seq = pathSequences[key] || [];
           if (segment < seq.length) {
             activatePath(seq[segment]);
@@ -1761,7 +1755,6 @@
       progressPercentEl.textContent = "0%";
       clearActivePaths();
 
-      // banner cảnh báo cho brute-force
       if (key === "hids") {
         alertBanner.style.display = "flex";
         setTimeout(() => {
@@ -1782,7 +1775,6 @@
           highlightNode(step.node);
           appendLog(index + 1, step.desc, step.node);
 
-          // đánh dấu đoạn mũi tên đã đi qua (từ step index-1 -> index)
           if (index > 0 && index - 1 < seq.length) {
             activatePath(seq[index - 1]);
           }
@@ -1798,7 +1790,6 @@
       animateMini(key);
     }
 
-    // tooltips cho node
     const tooltipNodes = document.querySelectorAll(".node[data-tooltip]");
     tooltipNodes.forEach(node => {
       node.addEventListener("mouseenter", () => {
